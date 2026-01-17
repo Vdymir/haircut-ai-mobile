@@ -30,45 +30,51 @@ alwaysApply: true
 
 # Recommended folder structure:
 
-src/
-├── app/                         # Expo Router entry points
-│   ├── _layout.tsx
-│   ├── index.tsx
-│   ├── camera.tsx
-│   └── generate.tsx
+root/
+├── app/                          # Expo Router entry points (routes ONLY)
+│   ├── _layout.tsx               # Global layout & providers
+│   ├── index.tsx                 # Home route
+│   ├── camera.tsx                # /camera
+│   └── generate.tsx              # /generate
 │
-├── features/
-│   ├── camera/
-│   │   ├── components/
-│   │   │   └── CameraPreview.tsx
-│   │   ├── hooks/
-│   │   │   └── useCamera.ts
-│   │   ├── services/
-│   │   │   └── camera.service.ts
-│   │   ├── types.ts
-│   │   └── index.ts
+├── src/
+│   ├── features/
+│   │   ├── camera/
+│   │   │   ├── components/
+│   │   │   │   └── CameraPreview.tsx
+│   │   │   ├── hooks/
+│   │   │   │   └── useCamera.ts
+│   │   │   ├── services/
+│   │   │   │   └── camera.service.ts
+│   │   │   ├── types.ts
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── generation/
+│   │   │   ├── components/
+│   │   │   ├── hooks/
+│   │   │   ├── services/
+│   │   │   ├── types.ts
+│   │   │   └── index.ts
 │   │
-│   ├── generation/
+│   ├── core/
+│   │   ├── api/
+│   │   │   └── client.ts
 │   │   ├── components/
 │   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── types.ts
-│   │   └── index.ts
+│   │   ├── theme/
+│   │   └── utils/
+│   │
+│   ├── shared/
+│   │   ├── constants/
+│   │   ├── helpers/
+│   │   └── types/
+│   │
+│   └── assets/
 │
-├── core/
-│   ├── api/
-│   │   └── client.ts
-│   ├── components/
-│   ├── hooks/
-│   ├── theme/
-│   └── utils/
-│
-├── shared/
-│   ├── constants/
-│   ├── helpers/
-│   └── types/
-│
-└── assets/
+├── babel.config.js
+├── tsconfig.json
+└── package.json
+
 
 # -------------------------------
 # Expo Router Rules
