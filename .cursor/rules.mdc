@@ -1,0 +1,259 @@
+---
+alwaysApply: true
+---
+
+# ===============================
+# Cursor Rules
+# React Native + Expo + TypeScript
+# Expo Router + Performance First
+# ===============================
+
+# -------------------------------
+# Core Principles
+# -------------------------------
+- Always use TypeScript with strict typing.
+- Use functional components only (no class components).
+- Prefer clarity over abstraction.
+- MVP-first mindset: build the minimum usable solution.
+- Keep components small, predictable, and focused.
+- Business logic must never live inside UI components.
+- Prefer composition over inheritance.
+
+# -------------------------------
+# Architecture (Feature / Streaming-based)
+# -------------------------------
+- Organize code by features, not by file type.
+- Each feature must be self-contained.
+- Features must NOT import directly from other features.
+- Cross-feature communication must go through shared services or core modules.
+- Avoid deep folder nesting (> 3 levels).
+
+# Recommended folder structure:
+
+src/
+├── app/                         # Expo Router entry points
+│   ├── _layout.tsx
+│   ├── index.tsx
+│   ├── camera.tsx
+│   └── generate.tsx
+│
+├── features/
+│   ├── camera/
+│   │   ├── components/
+│   │   │   └── CameraPreview.tsx
+│   │   ├── hooks/
+│   │   │   └── useCamera.ts
+│   │   ├── services/
+│   │   │   └── camera.service.ts
+│   │   ├── types.ts
+│   │   └── index.ts
+│   │
+│   ├── generation/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── types.ts
+│   │   └── index.ts
+│
+├── core/
+│   ├── api/
+│   │   └── client.ts
+│   ├── components/
+│   ├── hooks/
+│   ├── theme/
+│   └── utils/
+│
+├── shared/
+│   ├── constants/
+│   ├── helpers/
+│   └── types/
+│
+└── assets/
+
+# -------------------------------
+# Expo Router Rules
+# -------------------------------
+- Screens live ONLY inside the /app directory.
+- Do NOT put business logic inside route files.
+- Route files should only:
+  - Compose UI components
+  - Call hooks
+  - Handle navigation
+- Use `_layout.tsx` for providers and shared layout only.
+- Avoid complex logic inside layouts.
+
+Example route file:
+
+import { View } from 'react-native';
+import { CameraScreen } from '@/features/camera';
+
+export default function CameraRoute() {
+  return (
+    <View style={{ flex: 1 }}>
+      <CameraScreen />
+    </View>
+  );
+}
+
+# -------------------------------
+# Components
+# -------------------------------
+- One component = one responsibility.
+- Props must be explicitly typed.
+- Avoid inline styles when reused.
+- Avoid anonymous functions inside JSX when possible.
+- Use React.memo only when there is a proven performance issue.
+
+Example functional component:
+
+import { View, Text, StyleSheet } from 'react-native';
+
+type HeaderProps = {
+  title: string;
+  subtitle?: string;
+};
+
+export const Header = ({ title, subtitle }: HeaderProps) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  subtitle: {
+    fontSize: 14,
+    opacity: 0.7,
+  },
+});
+
+# -------------------------------
+# Hooks
+# -------------------------------
+- Extract logic into custom hooks.
+- One hook = one responsibility.
+- Never call hooks conditionally.
+- Hooks should not return JSX.
+
+Example custom hook:
+
+import { useState } from 'react';
+
+export const useToggle = (initial = false) => {
+  const [value, setValue] = useState(initial);
+
+  const toggle = () => setValue((prev) => !prev);
+
+  return { value, toggle };
+};
+
+# -------------------------------
+# Data Fetching (TanStack Query)
+# -------------------------------
+- ALL network requests must go through TanStack Query.
+- Never fetch data directly inside components.
+- Use mutations for write operations.
+- Centralize API logic in core/api.
+
+Example query hook:
+
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '@/core/api/client';
+
+export const useHaircutStyles = () => {
+  return useQuery({
+    queryKey: ['haircut-styles'],
+    queryFn: () => apiClient.get('/haircuts'),
+  });
+};
+
+# -------------------------------
+# Animations (Reanimated)
+# -------------------------------
+- Use Reanimated for all non-trivial animations.
+- Keep animation logic outside JSX.
+- Prefer shared values and derived styles.
+- Avoid triggering animations inside render cycles.
+
+Example animation hook:
+
+import {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+
+export const useFadeIn = () => {
+  const opacity = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const start = () => {
+    opacity.value = withTiming(1, { duration: 300 });
+  };
+
+  return { animatedStyle, start };
+};
+
+# -------------------------------
+# Performance Rules (Mobile First)
+# -------------------------------
+- Avoid unnecessary re-renders.
+- Prefer useMemo and useCallback ONLY when measurable.
+- Avoid large inline objects in JSX.
+- Use FlatList instead of ScrollView for large lists.
+- Always set:
+  - keyExtractor
+  - getItemLayout (when possible)
+- Resize and compress images before upload.
+- Avoid blocking JS thread with heavy logic.
+
+# -------------------------------
+# Types
+# -------------------------------
+- Define types in `types.ts`.
+- Never use `any`.
+- Prefer `type` over `interface` unless extending.
+- Keep types simple and explicit.
+
+Example type:
+
+export type HaircutStyle = {
+  id: string;
+  name: string;
+  previewUrl: string;
+};
+
+# -------------------------------
+# Naming Conventions
+# -------------------------------
+- Components: PascalCase
+- Hooks: useCamelCase
+- Services: camelCase
+- Files: camelCase or kebab-case (be consistent)
+- No default exports.
+
+# -------------------------------
+# Strict Rules (Do NOT do this)
+# -------------------------------
+- Do NOT use default exports.
+- Do NOT fetch data inside useEffect.
+- Do NOT mix UI and business logic.
+- Do NOT access APIs outside service layers.
+- Do NOT over-abstract early.
+
+# -------------------------------
+# Final Rule
+# -------------------------------
+ALWAYS optimize for readability, predictability, and mobile performance.
