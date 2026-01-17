@@ -1,4 +1,5 @@
-import { COLORS } from '@/src/shared/colors';
+import { useThemeColor } from '@/src/core/hooks/use-theme-color';
+import { initI18n } from '@/src/core/langs/config';
 import {
   QueryClient,
   QueryClientProvider
@@ -6,13 +7,15 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient()
 
 export default function RootLayout() {
+  const [isI18nInitialized, setIsI18nInitialized] = useState(false);
+  const backgroundColor = useThemeColor({}, "primary");
   const [loaded, error] = useFonts({
     "RedHatDisplay-Bold": require("../assets/fonts/RedHatDisplay-Bold.ttf"),
     "RedHatDisplay-SemiBold": require("../assets/fonts/RedHatDisplay-SemiBold.ttf"),
@@ -21,11 +24,25 @@ export default function RootLayout() {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
   });
 
+  const initializeI18n = useCallback(async () => {
+    try {
+      const success = await initI18n();
+      setIsI18nInitialized(success);
+    } catch (error) {
+      console.error("Failed to initialize i18n:", error);
+      setIsI18nInitialized(false);
+    }
+  }, []);
+
   useEffect(() => {
-    if (loaded || error) {
+    initializeI18n();
+  }, [initializeI18n]);
+
+  useEffect(() => {
+    if (loaded || error || !isI18nInitialized) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, error]);
+  }, [loaded, error, isI18nInitialized]);
 
   if (!loaded && !error) {
     return null;
@@ -33,7 +50,7 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: COLORS.primary } }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
         <Stack.Screen name="index" />
       </Stack>
     </QueryClientProvider>
