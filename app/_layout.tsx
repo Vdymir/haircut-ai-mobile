@@ -1,3 +1,4 @@
+import { COLORS } from '@/src/shared/colors';
 import {
   QueryClient,
   QueryClientProvider,
@@ -9,7 +10,9 @@ const queryClient = new QueryClient()
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: COLORS.primary } }}>
+        <Stack.Screen name="index" />
+      </Stack>
     </QueryClientProvider>
   )
 }
