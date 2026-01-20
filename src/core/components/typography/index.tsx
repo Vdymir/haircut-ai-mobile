@@ -4,7 +4,7 @@ import { useThemeColor } from "../../hooks/use-theme-color";
 export type TypographyProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link" | "h3";
+  type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "h3";
 };
 
 export function Typography({
@@ -15,7 +15,6 @@ export function Typography({
   ...rest
 }: TypographyProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
-  const tintColor = useThemeColor({}, "tint");
 
   return (
     <Text
@@ -25,7 +24,6 @@ export function Typography({
         type === "title" ? styles.title : undefined,
         type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
         type === "subtitle" ? styles.subtitle : undefined,
-        type === "link" ? { ...styles.link, color: tintColor } : undefined,
         type === "h3" ? styles.h3 : undefined,
         style,
       ]}

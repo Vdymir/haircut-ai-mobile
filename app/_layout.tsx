@@ -8,6 +8,12 @@ import { useFonts } from 'expo-font';
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from 'react';
+import { StatusBar, useColorScheme } from 'react-native';
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+  SafeAreaView
+} from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -15,7 +21,9 @@ const queryClient = new QueryClient()
 
 export default function RootLayout() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
-  const backgroundColor = useThemeColor({}, "primary");
+  const backgroundColor = useThemeColor({}, "background");
+  const card = useThemeColor({}, "card");
+  const isDark = useColorScheme() === "dark";
   const [loaded, error] = useFonts({
     "RedHatDisplay-Bold": require("../assets/fonts/RedHatDisplay-Bold.ttf"),
     "RedHatDisplay-SemiBold": require("../assets/fonts/RedHatDisplay-SemiBold.ttf"),
@@ -49,10 +57,15 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
-        <Stack.Screen name="index" />
-      </Stack>
-    </QueryClientProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaView edges={["top"]} style={{backgroundColor: card}}>
+          <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+        </SafeAreaView>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
+          <Stack.Screen name="index" />
+        </Stack>
+      </QueryClientProvider>
+    </SafeAreaProvider>
   )
 }
