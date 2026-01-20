@@ -5,17 +5,22 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const Header = () => {
+interface HeaderProps {
+  onClickCamera?: () => void;
+  onClickSettings?: () => void;
+}
+
+const Header = ({ onClickCamera = () => {}, onClickSettings = () => {} }: HeaderProps) => {
   const backgroundColor = useThemeColor({}, "card");
   const borderColor = useThemeColor({}, "background");
   const textColor = useThemeColor({}, "text");
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <CustomPressable style={[styles.button, { borderColor }]}>
+      <CustomPressable style={[styles.button, { borderColor }]} onPress={onClickSettings}>
         <Ionicons name="settings-outline" size={24} color={textColor} />
       </CustomPressable>
       <Typography type="title">Haircut AI</Typography>
-      <CustomPressable style={[styles.button, { borderColor }]}>
+      <CustomPressable style={[styles.button, { borderColor }]} onPress={onClickCamera}>
         <Ionicons name="camera-outline" size={24} color={textColor} />
       </CustomPressable>
     </View>
