@@ -5,9 +5,10 @@ interface CameraState {
   facing: CameraType;
   showCamera: boolean;
   photo: string | null;
+  photoFacing: CameraType | null;
   setFacing: (facing: CameraType) => void;
   setShowCamera: (show: boolean) => void;
-  setPhoto: (photoUri: string | null) => void;
+  setPhoto: (photoUri: string | null, facing?: CameraType) => void;
   openCamera: () => void;
   closeCamera: () => void;
   toggleCameraFacing: () => void;
@@ -18,13 +19,17 @@ const initialState = {
   facing: 'front' as CameraType,
   showCamera: false,
   photo: null,
+  photoFacing: null as CameraType | null,
 };
 
 export const useCameraStore = create<CameraState>((set) => ({
   ...initialState,
   setFacing: (facing) => set({ facing }),
   setShowCamera: (show) => set({ showCamera: show }),
-  setPhoto: (photoUri) => set({ photo: photoUri }),
+  setPhoto: (photoUri, facing) => set({ 
+    photo: photoUri, 
+    photoFacing: facing || null 
+  }),
   openCamera: () => set({ showCamera: true, facing: 'front' }),
   closeCamera: () => set({ showCamera: false }),
   toggleCameraFacing: () =>
