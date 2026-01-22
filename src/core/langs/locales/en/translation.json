@@ -3,5 +3,12 @@
   "multiple_faces": "Only one face is allowed. Please take the photo by yourself.",
   "face_too_small": "Your face is too far away. Move closer to the camera.",
   "face_not_centered": "Please center your face within the frame.",
-  "generic_error": "Something went wrong while analyzing the photo. Please try again."
+  "generic_error": "Something went wrong while analyzing the photo. Please try again.",
+  "gallery_permission_title": "Permissions needed",
+  "gallery_permission_message": "We need access to your gallery to select a photo.",
+  "gallery_permission_button": "OK",
+  "gallery_permission_error": "Failed to select the image. Please try again.",
+  "gallery_title": "Gallery",
+  "camera_title": "Camera",
+  "suggestions_for_photo_message": "Make sure your face is centered and well lit"
 }

@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { CameraView } from 'expo-camera';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import useCamera from '../../home/hooks/useCamera';
 import FaceGuideOverlay from '../components/face-guide-overlay';
@@ -12,6 +13,7 @@ import PreviewFoto from '../components/preview-foto';
 
 const CameraScreen = () => {
   const textColor = useThemeColor({}, "text");
+  const { t } = useTranslation();
   const { facing, closeCamera, setPhoto, photo, toggleCameraFacing } = useCameraStore();
   const { openCamera } = useCamera();
   const cameraRef = useRef<CameraView>(null);
@@ -63,7 +65,7 @@ const CameraScreen = () => {
         <View style={styles.instructionCard}>
           <Ionicons name="information-circle-outline" size={16} color="#fff" />
           <Text style={styles.instructionText}>
-            Asegúrate de que tu rostro esté centrado y bien iluminado
+            {t('suggestions_for_photo_message')}
           </Text>
         </View>
       </View>

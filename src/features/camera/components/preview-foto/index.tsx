@@ -22,7 +22,6 @@ const PreviewFoto = () => {
         setImageWidth(null);
     }, [resetValidation, setPhoto]);
 
-    // Obtener las dimensiones reales de la imagen
     useEffect(() => {
         if (photo) {
             RNImage.getSize(
@@ -32,14 +31,12 @@ const PreviewFoto = () => {
                 },
                 (error) => {
                     console.error('Error getting image size:', error);
-                    // Fallback: usar un ancho por defecto si falla
                     setImageWidth(1080);
                 }
             );
         }
     }, [photo]);
 
-    // Validar cuando tengamos las dimensiones de la imagen
     useEffect(() => {
         if (photo && imageWidth) {
             validateFace({ imageUri: photo, imageWidth });

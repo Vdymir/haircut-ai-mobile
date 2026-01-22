@@ -3,5 +3,12 @@
     "multiple_faces": "Solo se permite un rostro. Por favor, toma la foto tú mismo.",
     "face_too_small": "Tu rostro está demasiado lejos. Acércate más a la cámara.",
     "face_not_centered": "Por favor, centra tu rostro dentro del marco.",
-    "generic_error": "Algo salió mal al analizar la foto. Por favor, intenta nuevamente."
+    "generic_error": "Algo salió mal al analizar la foto. Por favor, intenta nuevamente.",
+    "gallery_permission_title": "Permisos necesarios",
+    "gallery_permission_message": "Necesitamos acceso a tu galería para seleccionar una foto.",
+    "gallery_permission_button": "OK",
+    "gallery_permission_error": "No se pudo seleccionar la imagen. Por favor, intenta nuevamente.",
+    "gallery_title": "Galería",
+    "camera_title": "Cámara",
+    "suggestions_for_photo_message": "Asegúrate de que tu rostro esté centrado y bien iluminado"
 }
