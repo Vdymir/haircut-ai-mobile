@@ -1,3 +1,7 @@
 {
-    "welcome": "Bienvenido a la app"
+    "no_face": "No pudimos detectar un rostro. Por favor, asegúrate de que tu rostro esté visible.",
+    "multiple_faces": "Solo se permite un rostro. Por favor, toma la foto tú mismo.",
+    "face_too_small": "Tu rostro está demasiado lejos. Acércate más a la cámara.",
+    "face_not_centered": "Por favor, centra tu rostro dentro del marco.",
+    "generic_error": "Algo salió mal al analizar la foto. Por favor, intenta nuevamente."
 }

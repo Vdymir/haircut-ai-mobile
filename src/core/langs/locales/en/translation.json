@@ -1,3 +1,7 @@
 {
-  "welcome": "Welcome to the app"
+  "no_face": "We couldn’t detect a face. Please make sure your face is clearly visible.",
+  "multiple_faces": "Only one face is allowed. Please take the photo by yourself.",
+  "face_too_small": "Your face is too far away. Move closer to the camera.",
+  "face_not_centered": "Please center your face within the frame.",
+  "generic_error": "Something went wrong while analyzing the photo. Please try again."
 }
