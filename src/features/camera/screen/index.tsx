@@ -1,4 +1,5 @@
 import CustomPressable from '@/src/core/components/custom-pressable';
+import { Typography } from '@/src/core/components/typography';
 import { useThemeColor } from '@/src/core/hooks/use-theme-color';
 import { useCameraStore } from '@/src/core/stores/useCameraStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,7 +7,7 @@ import { CameraView } from 'expo-camera';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import useCamera from '../../home/hooks/useCamera';
 import FaceGuideOverlay from '../components/face-guide-overlay';
 import PreviewFoto from '../components/preview-foto';
@@ -64,9 +65,9 @@ const CameraScreen = () => {
       <View style={styles.instructionsContainer}>
         <View style={styles.instructionCard}>
           <Ionicons name="information-circle-outline" size={16} color="#fff" />
-          <Text style={styles.instructionText}>
+          <Typography>
             {t('suggestions_for_photo_message')}
-          </Text>
+          </Typography>
         </View>
       </View>
       <View style={styles.cameraControls}>
@@ -108,16 +109,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
-  },
-  instructionText: {
-    flex: 1,
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '500',
   },
   cameraControls: {
     position: 'absolute',

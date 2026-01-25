@@ -7,11 +7,11 @@ import { useThemeColor } from '../../hooks/use-theme-color';
 const StatusBar = () => {
   const isDark = useColorScheme() === "dark";
   const card = useThemeColor({}, "card");
-  
+
   return (
-    <SafeAreaView edges={["top"]} style={{backgroundColor: card}}>
-    <ExpoStatusBar style={isDark ? "light" : "dark"} />
-  </SafeAreaView>
+    <SafeAreaView edges={["top"]} style={{ backgroundColor: card }}>
+      <ExpoStatusBar style={isDark ? "light" : "dark"} />
+    </SafeAreaView>
   )
 }
 

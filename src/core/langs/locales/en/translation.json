@@ -10,5 +10,6 @@
   "gallery_permission_error": "Failed to select the image. Please try again.",
   "gallery_title": "Gallery",
   "camera_title": "Camera",
-  "suggestions_for_photo_message": "Make sure your face is centered and well lit"
+  "suggestions_for_photo_message": "Make sure your face is centered and well lit",
+  "albums_title": "Latest selfies"
 }

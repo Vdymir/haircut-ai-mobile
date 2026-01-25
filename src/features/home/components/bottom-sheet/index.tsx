@@ -4,21 +4,24 @@ import { useThemeColor } from '@/src/core/hooks/use-theme-color';
 import { useCameraStore } from '@/src/core/stores/useCameraStore';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheetGorhom, { BottomSheetView, useBottomSheetSpringConfigs } from '@gorhom/bottom-sheet';
+import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import useGetAlbum from '../../hooks/useGetAlbum';
 
 const BottomSheetComponent = () => {
+    const { albums, isLoading, error } = useGetAlbum();
     const { t } = useTranslation();
     const backgroundColor = useThemeColor({}, "card");
     const galleryButton = useThemeColor({}, "galleryButton");
     const cameraButton = useThemeColor({}, "cameraButton");
     const { setPhoto } = useCameraStore();
     const bottomSheetRef = useRef<BottomSheetGorhom>(null);
-    const snapPoints = useMemo(() => ['18%', '50%'], []);
+    const snapPoints = useMemo(() => ['15%', '43%'], []);
 
     const animationConfigs = useBottomSheetSpringConfigs({
         damping: 80,
@@ -28,7 +31,6 @@ const BottomSheetComponent = () => {
 
     const handleGallery = useCallback(async () => {
         try {
-            // Solicitar permisos
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
             if (status !== 'granted') {
@@ -66,6 +68,11 @@ const BottomSheetComponent = () => {
         }
     }, [setPhoto]);
 
+    const handleSelectPhotoFromAlbum = useCallback((uri: string) => {
+        setPhoto(uri);
+        router.push('/camera');
+    }, [setPhoto]);
+
     const handleCamera = useCallback(() => {
         router.push('/camera');
     }, []);
@@ -94,6 +101,23 @@ const BottomSheetComponent = () => {
                             <Typography type="subtitle" lightColor='#FFFFFF'>{t('camera_title')}</Typography>
                         </CustomPressable>
                     </View>
+                    {albums && albums.length > 0 && (
+                        <View style={styles.albumsContainer}>
+                            <Typography type="title" lightColor='#FFFFFF'>{t('albums_title')}</Typography>
+                            <FlatList
+                                data={albums}
+                                keyExtractor={(item) => item.id}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={styles.albumsImagesContainer}
+                                renderItem={({ item }) => (
+                                    <CustomPressable onPress={() => handleSelectPhotoFromAlbum(item.uri)}>
+                                        <Image source={{ uri: item.uri }} style={styles.albumImage} />
+                                    </CustomPressable>
+                                )}
+                            />
+                        </View>
+                    )}
                 </BottomSheetView>
             </BottomSheetGorhom>
         </GestureHandlerRootView>
@@ -121,6 +145,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
+    },
+    albumsContainer: {
+        marginTop: 16,
+        gap: 10,
+    },
+    albumsImagesContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+    },
+    albumImage: {
+        width: 120,
+        height: 140,
+        borderRadius: 10,
     },
 });
 
