@@ -66,6 +66,7 @@ export default function RootLayout() {
               name="camera"
               options={{ presentation: "fullScreenModal" }}
             />
+            <Stack.Screen name="login" options={{ presentation: "modal" }} />
           </Stack>
         </QueryClientProvider>
       </SafeAreaProvider>

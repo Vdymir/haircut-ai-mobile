@@ -1,48 +1,49 @@
-import CustomPressable from '@/src/core/components/custom-pressable';
-import { Typography } from '@/src/core/components/typography';
-import { useThemeColor } from '@/src/core/hooks/use-theme-color';
-import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import CustomPressable from "@/src/core/components/custom-pressable";
+import { Typography } from "@/src/core/components/typography";
+import { useThemeColor } from "@/src/core/hooks/use-theme-color";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 
 interface HeaderProps {
-  onClickCamera?: () => void;
-  onClickSettings?: () => void;
+  onPressLogin?: () => void;
 }
 
-const Header = ({ onClickCamera = () => {}, onClickSettings = () => {} }: HeaderProps) => {
+const Header = ({ onPressLogin = () => {} }: HeaderProps) => {
+  const { t } = useTranslation();
   const backgroundColor = useThemeColor({}, "card");
-  const borderColor = useThemeColor({}, "background");
-  const textColor = useThemeColor({}, "text");
+  const loginButtonColor = useThemeColor({}, "loginButton");
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <CustomPressable style={[styles.button, { borderColor }]} onPress={onClickSettings}>
-        <Ionicons name="settings-outline" size={24} color={textColor} />
-      </CustomPressable>
       <Typography type="title">Haircut AI</Typography>
-      <CustomPressable style={[styles.button, { borderColor }]} onPress={onClickCamera}>
-        <Ionicons name="camera-outline" size={24} color={textColor} />
+      <CustomPressable
+        style={[styles.button, { backgroundColor: loginButtonColor }]}
+        onPress={onPressLogin}
+      >
+        <Typography lightColor="#FFF" darkColor="#000">
+          {t("login_title")}
+        </Typography>
       </CustomPressable>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
   },
   button: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 18,
   },
 });
 
-export default Header
+export default Header;

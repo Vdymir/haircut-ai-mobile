@@ -7,14 +7,14 @@ import GridGallery from "../components/grid-gallery";
 import Header from "../components/header";
 
 const HomeScreen = () => {
-  const openCamera = useCallback(() => {
-    router.push("/camera");
+  const handlePressLogin = useCallback(() => {
+    router.push("/login");
   }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar />
-      <Header onClickCamera={openCamera} />
+      <Header onPressLogin={handlePressLogin} />
       <GridGallery />
       <BottomSheetComponent />
     </View>
