@@ -1,21 +1,20 @@
-import { useThemeColor } from '@/src/core/hooks/use-theme-color';
-import { initI18n } from '@/src/core/langs/config';
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query';
-import { useFonts } from 'expo-font';
+import { useThemeColor } from "@/src/core/hooks/use-theme-color";
+import { initI18n } from "@/src/core/langs/config";
+import { ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from "@clerk/clerk-expo/token-cache";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 import {
   initialWindowMetrics,
-  SafeAreaProvider
-} from 'react-native-safe-area-context';
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
@@ -53,13 +52,23 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <QueryClientProvider client={queryClient}>
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="camera" options={{ presentation: 'fullScreenModal' }} />
-        </Stack>
-      </QueryClientProvider>
-    </SafeAreaProvider>
-  )
+    <ClerkProvider tokenCache={tokenCache}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <QueryClientProvider client={queryClient}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor },
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen
+              name="camera"
+              options={{ presentation: "fullScreenModal" }}
+            />
+          </Stack>
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </ClerkProvider>
+  );
 }
