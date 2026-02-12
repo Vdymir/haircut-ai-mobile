@@ -12,5 +12,13 @@
   "camera_title": "Cámara",
   "suggestions_for_photo_message": "Asegúrate de que tu rostro esté centrado y bien iluminado",
   "albums_title": "Últimas selfies",
-  "login_title": "Iniciar sesión"
+  "login_title": "Iniciar sesión",
+  "login": {
+    "title": "Haircut AI",
+    "description": "Por favor, inicia sesión para continuar",
+    "button_google": "Continuar con Google",
+    "button_facebook": "Continuar con Facebook",
+    "button_apple": "Continuar con Apple",
+    "privacy_statement": "Por favor, visita {privacy_statement} para aprender sobre el procesamiento de datos personales en Haircut AI."
+  }
 }

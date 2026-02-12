@@ -1,10 +1,9 @@
-import { useThemeColor } from "@/src/core/hooks/use-theme-color";
 import { initI18n } from "@/src/core/langs/config";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -18,7 +17,6 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
-  const backgroundColor = useThemeColor({}, "background");
   const [loaded, error] = useFonts({
     "RedHatDisplay-Bold": require("../assets/fonts/RedHatDisplay-Bold.ttf"),
     "RedHatDisplay-SemiBold": require("../assets/fonts/RedHatDisplay-SemiBold.ttf"),
@@ -55,19 +53,7 @@ export default function RootLayout() {
     <ClerkProvider tokenCache={tokenCache}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <QueryClientProvider client={queryClient}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor },
-            }}
-          >
-            <Stack.Screen name="index" />
-            <Stack.Screen
-              name="camera"
-              options={{ presentation: "fullScreenModal" }}
-            />
-            <Stack.Screen name="login" options={{ presentation: "modal" }} />
-          </Stack>
+          <Slot />
         </QueryClientProvider>
       </SafeAreaProvider>
     </ClerkProvider>

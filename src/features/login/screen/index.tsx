@@ -2,6 +2,7 @@ import { Typography } from "@/src/core/components/typography";
 import { useThemeColor } from "@/src/core/hooks/use-theme-color";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import AppleAuthButton from "../components/apple-button";
@@ -13,6 +14,7 @@ const AnimatedText = Animated.createAnimatedComponent(Typography);
 
 const LoginScreen = () => {
   const backgroundColor = useThemeColor({}, "background");
+  const { t } = useTranslation();
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View style={styles.infiniteScrollContainer}>
@@ -26,10 +28,10 @@ const LoginScreen = () => {
       </View>
       <View style={styles.contentContainer}>
         <AnimatedText entering={FadeInDown} type="title" style={styles.title}>
-          Haircut AI
+          {t("login.title")}
         </AnimatedText>
         <AnimatedText entering={FadeInDown} style={styles.tagline}>
-          Please login to continue
+          {t("login.description")}
         </AnimatedText>
 
         {/* Login buttons */}
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   privacyContainer: {
-    marginTop: 30,
+    marginTop: 20,
     paddingHorizontal: 20,
   },
   privacyText: {

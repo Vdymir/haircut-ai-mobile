@@ -12,5 +12,13 @@
   "camera_title": "Camera",
   "suggestions_for_photo_message": "Make sure your face is centered and well lit",
   "albums_title": "Latest selfies",
-  "login_title": "Login"
+  "login_title": "Login",
+  "login": {
+    "title": "Haircut AI",
+    "description": "Please login to continue",
+    "button_google": "Continue with Google",
+    "button_facebook": "Continue with Facebook",
+    "button_apple": "Continue with Apple",
+    "privacy_statement": "Please visit {privacy_statement} to learn about personal data processing at Haircut AI."
+  }
 }
