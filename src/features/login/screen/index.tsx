@@ -3,17 +3,19 @@ import { useThemeColor } from "@/src/core/hooks/use-theme-color";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import AppleAuthButton from "../components/apple-button";
 import FacebookAuthButton from "../components/facebook-button";
 import GoogleAuthButton from "../components/google-button";
 import SmoothInfiniteScroll from "../components/smooth-infinite-scroll";
+import useSignIn from "../hooks/useSignIn";
 
 const AnimatedText = Animated.createAnimatedComponent(Typography);
 
 const LoginScreen = () => {
   const backgroundColor = useThemeColor({}, "background");
+  const { handleSignIn } = useSignIn();
   const { t } = useTranslation();
   return (
     <View style={[styles.container, { backgroundColor }]}>
@@ -36,11 +38,13 @@ const LoginScreen = () => {
 
         {/* Login buttons */}
         <View style={styles.buttonContainer}>
-          <Animated.View entering={FadeInDown.delay(100)}>
-            <AppleAuthButton />
-          </Animated.View>
+          {Platform.OS === "ios" && (
+            <Animated.View entering={FadeInDown.delay(100)}>
+              <AppleAuthButton />
+            </Animated.View>
+          )}
           <Animated.View entering={FadeInDown.delay(200)}>
-            <GoogleAuthButton />
+            <GoogleAuthButton onPress={() => handleSignIn("oauth_google")} />
           </Animated.View>
           <Animated.View entering={FadeInDown.delay(300)}>
             <FacebookAuthButton />
@@ -102,11 +106,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     gap: 12,
+    flex: 1,
     width: "100%",
+    justifyContent: "flex-end",
   },
   privacyContainer: {
     marginTop: 20,
     paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   privacyText: {
     fontSize: 12,
